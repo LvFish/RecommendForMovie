@@ -1,0 +1,45 @@
+body{
+    background:#fff url(/assets/image/login.jpg) no-repeat left top;
+    background-size:100%;
+}
+.box{
+    margin-top: 150px;
+    margin-left: 900px;
+    height: 300px;
+    width: 300px;
+    background: white;
+    border-radius:10px;
+    text-align: center;
+}
+.box-lable{
+    font-size: 30px;
+    margin-top: 20px;
+}
+.box-form{
+    background: gray;
+    height: 450px;
+    margin-top: 20px;
+    border-radius: 0px 0px 10px 10px;
+}
+.box-input{
+    margin-top: 20px;
+    height:30px;
+    width: 300px;
+}
+.input-text{
+    width:260px;
+    height:30px;
+    border-radius:5px;
+}
+.form-text{
+    margin-top: 10px;
+    text-align: right;
+    margin-right: 20px;
+    margin-bottom: -15px;
+}
+.form-button{
+    margin-top: 20px;
+    width:260px;
+    background: green;
+    font-size: 20px;
+}
