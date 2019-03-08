@@ -24,11 +24,3 @@ jdbc.jdbcUrl=jdbc:mysql://localhost:3306/mysql?useUnicode=true&characterEncoding
 jdbc.initPoolSize=20    
 jdbc.maxPoolSize=50
 
-* Spring MVC测试过了，能访问 http://localhost:8080/newclass/index ，说明成功了。
-* 测试相关代码都写在test下面，默认的话，包名加一个test，对应测试类的后面带Test。
-* 其他问题可能需要后续再修改。
-
-
-以上内容改自“校视通”项目，原文为陈洁和孙泽群两位学长所写，如有修改不慎的地方，大家尽可能提出，一起学习！
-
-ljw
