@@ -21,7 +21,8 @@
             <div>
                 <input type="button" value="电影" name="name" class="txt1" id="name">
             </div>
-            <div>
+            <div class="line">
+                <div class="line1">
                 <div class="div2">
                 <div>
                     <img src="/assets/image/timg.jpeg" class="img" name="img" id="img" alt="图片加载失败">
@@ -68,6 +69,60 @@
                 </div>
                 <div></div>
             </div>
+            </div>
+                <div class="line2">
+                    <span class="title">看了该电影的人还看了</span>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m1" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n1">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m2" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n2">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m3" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n3">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m4" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n4">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m5" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n5">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m6" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n6">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m7" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n7">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m8" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n8">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m9" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n9">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                    <div class="mList">
+                        <input class="mT" type="button" value="" id="m10" onclick="btn(this)">
+                        <input class="nT" type="button" value="" id="n10">
+                        <%--<span class="rT">人观看</span>--%>
+                    </div>
+                </div>
             </div>
         </div>
 

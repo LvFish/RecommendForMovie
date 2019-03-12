@@ -2,6 +2,13 @@ var id;
 var movieDetail;
 var movieType;
 var movieGrade;
+var numberList;
+var movieList;
+btn = function(val){
+    var name = val.id;
+    var number =  new Number(name.substring(1));
+    window.location.href="/movie/movieDetail?id="+movieList[number-1].mid;
+}
 init = function(){
     if(movieDetail.url!="default")
         document.getElementById("img").setAttribute("src",movieDetail.url);
@@ -21,6 +28,12 @@ init = function(){
         document.getElementById("c4").style.width = ((movieGrade.fournumber / movieGrade.allnumber * 100) + "px");
         document.getElementById("c5").style.width = ((movieGrade.fivenumber / movieGrade.allnumber * 100) + "px");
     }
+    for(var i=0; i<10&&i<numberList.length; i++){
+        var tempM = "m"+(i+1).toString();
+        var tempN = "n"+(i+1).toString();
+        document.getElementById(tempM).setAttribute("value",movieList[i].name);
+        document.getElementById(tempN).setAttribute("value",numberList[i]+"人观看");
+    }
 }
 $(document).ready(function(){
     $.post("/movie/queryById",
@@ -34,6 +47,8 @@ $(document).ready(function(){
                 movieDetail = data.msg;
                 movieType = data.movieType;
                 movieGrade = data.movieGrade;
+                numberList = data.numberList;
+                movieList = data.movieList;
                 console.log(movieGrade);
                 console.log(movieDetail);
                 console.log(movieType);

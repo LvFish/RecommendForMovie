@@ -1,13 +1,7 @@
 package com.newclass.controller;
 
-import com.newclass.bean.GradeEntity;
-import com.newclass.bean.InnerMovieTypeEntity;
-import com.newclass.bean.MovieEntity;
-import com.newclass.bean.MovietypeEntity;
-import com.newclass.dao.GradeDao;
-import com.newclass.dao.InnerMovieTypeDao;
-import com.newclass.dao.MovieDao;
-import com.newclass.dao.MovietypeDao;
+import com.newclass.bean.*;
+import com.newclass.dao.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +34,13 @@ public class MovieController {
     @Autowired
     @Qualifier("movietypeDao")
     private MovietypeDao movietypeDao;
+    @Autowired
+    @Qualifier("CoOccurrenceDao")
+    private CoOccurrenceDao occurrenceDao;
+    @Autowired
+    @Qualifier("movieViewsDao")
+    private MovieViewsDao movieViewsDao;
+
     @RequestMapping(value = "/queryByType", method = RequestMethod.POST)
     public void queryByType(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        request.setCharacterEncoding("UTF-8");
@@ -90,10 +92,53 @@ public class MovieController {
         json.put("msg",movie);
         json.put("movieType",sb.toString());
         json.put("movieGrade",grade);
+        List<CoOccurrenceEntity> lists = occurrenceDao.queryByXidDesc(mid);
+        List<MovieEntity> list2 = new ArrayList<>();
+        List<Integer> list3 = new ArrayList<>();
+        int t = 0;
+        for(int i=0;i<10&&i<lists.size();i++){
+            t = lists.get(i).getYid();
+            if(t==mid){
+                t = lists.get(i).getXid();
+            }
+            list2.add(movieDao.getById(t));
+            list3.add(Integer.valueOf(movieViewsDao.getNumberByMid(t)));
+        }
+        MovieEntity tem;
+        for(int i=0;i<10;i++){
+            for(int j=i+1;j<10;j++){
+                if(list3.get(i)<list3.get(j)){
+                    t = list3.get(i);
+                    list3.set(i,list3.get(j));
+                    list3.set(j,t);
+                    tem = list2.get(i);
+                    list2.set(i,list2.get(j));
+                    list2.set(j,tem);
+                }
+
+            }
+        }
+        json.put("numberList",list3);
+        json.put("movieList",list2);
         response.setContentType("application/json;charset=utf-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         String js = json.toString();
         response.getWriter().write(js.toString());
     }
 
+    @RequestMapping(value="/movieRecommend")
+    public void movieRecommend(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String id;
+        id = request.getParameter("id");
+        if(id==null)
+            id = (String)request.getSession().getAttribute("id");
+//        System.out.println(id);
+        JSONObject json = new JSONObject();
+        int mid = Integer.parseInt(id);
+
+        response.setContentType("application/json;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        String js = json.toString();
+        response.getWriter().write(js.toString());
+    }
 }

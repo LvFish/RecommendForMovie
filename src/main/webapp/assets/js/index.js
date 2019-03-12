@@ -52,7 +52,7 @@ bt1 = function (value,id) {
 btn2 = function(val){
     var name = val.id;
     var number =  new Number(name.substring(3));
-    window.location.href="/movie/movieDetail?id="+list[number][0];
+    window.open("/movie/movieDetail?id="+list[number][0]);
 }
 
 changeView = function(num){
