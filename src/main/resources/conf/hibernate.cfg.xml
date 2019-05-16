@@ -19,7 +19,7 @@
 		<property name="connection.characterEncoding">utf8</property>
 		<property name="connection.url">jdbc:mysql://localhost:3306/ElectronicCommerce</property>
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <mapping class="com.newclass.bean.GradeEntity"/>
+		<mapping class="com.newclass.bean.GradeEntity"/>
 		<mapping class="com.newclass.bean.GradedetailEntity"/>
 		<mapping class="com.newclass.bean.InnerMovieTypeEntity"/>
 		<mapping class="com.newclass.bean.MissionrecorderEntity"/>
@@ -29,7 +29,8 @@
 		<mapping class="com.newclass.bean.UsercommentEntity"/>
         <mapping class="com.newclass.bean.MovieViewsEntity"/>
         <mapping class="com.newclass.bean.CoOccurrenceEntity"/>
-        <!--<mapping class="com.xst.entity.V9Category"/>-->
+		<mapping class="com.newclass.bean.MovieRecommendEntity"/>
+		<!--<mapping class="com.xst.entity.V9Category"/>-->
 		<!--<mapping class="com.xst.entity.V9Resources"/>-->
 		<!--<mapping class="com.xst.entity.V9Member" />-->
 	</session-factory>

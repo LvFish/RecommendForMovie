@@ -57,4 +57,34 @@
 }
 .page{
     margin-left: 500px;
+    margin-top: 10px;
+}
+.div5{
+    float: left;
+    width: 60%;
+}
+.mList{
+    padding: 20px 0px 0px 0px;
+}
+.mT{
+    outline: none;
+    border: none;
+    color: #37ae;
+    font-size: 13px;
+    /*margin-top: 15px;*/
+    width: 150px;
+    text-align: left;
+    cursor:pointer;
+}
+.lr{
+    margin-top: 20px;
+}
+.div6{
+    width: 35%;
+    float: right;
+}
+.title1{
+    font-size: 20px;
+    /*text-align: center;*/
+    color: green;
 }

@@ -1,6 +1,7 @@
 package com.newclass.bean;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * Created by liujiawang on 2019/3/8.
@@ -12,6 +13,7 @@ public class CoOccurrenceEntity {
     private Integer xid;
     private Integer yid;
     private Integer value;
+    private BigDecimal similarity;
 
     @Id
     @Column(name = "oid", nullable = false)
@@ -75,5 +77,15 @@ public class CoOccurrenceEntity {
         result = 31 * result + (yid != null ? yid.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "similarity", nullable = true, precision = 4)
+    public BigDecimal getSimilarity() {
+        return similarity;
+    }
+
+    public void setSimilarity(BigDecimal similarity) {
+        this.similarity = similarity;
     }
 }

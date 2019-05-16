@@ -28,5 +28,16 @@ public class CoOccurrenceDao extends BaseDao {
         return query.list();
     }
 
+    public List<CoOccurrenceEntity> queryByIdAndUIdDesc(int id,int uid){
+        String hql = "SELECT co.* FROM ElectronicCommerce.co_occurrence co WHERE (co.xid= "+id+" AND co.yid NOT IN (select g.mid from" +
+                " ElectronicCommerce.gradedetail g where uid = "+uid+")) OR (co.yid= "+id+" AND co.xid NOT IN ("+
+        "SELECT g.mid FROM ElectronicCommerce.gradedetail g WHERE uid= "+uid+")) ORDER BY similarity DESC";
+        Query query  = getSession().createSQLQuery(hql)
+                .addEntity("co",CoOccurrenceEntity.class);
+//        Query query = getSession().createQuery(hql);
+        query.setMaxResults(10);
+        return query.list();
+    }
+
 
 }

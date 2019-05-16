@@ -17,4 +17,10 @@ public class GradeDao extends BaseDao{
         query.setString(0,String.valueOf(id));
         return query.list();
     }
+
+    public List<GradeEntity> getAllEntities(){
+        String hql = "from GradeEntity";
+        Query query = query(hql);
+        return query.list();
+    }
 }

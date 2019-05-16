@@ -1,7 +1,12 @@
 package com.newclass.controller;
 
 import com.newclass.bean.UserEntity;
+import com.newclass.dao.GradedetailDao;
+import com.newclass.dao.MovieRecommendDao;
+import com.newclass.dao.MovieViewsDao;
 import com.newclass.dao.UserDao;
+import com.newclass.service.KmeansService;
+import com.newclass.service.RecommendService;
 import com.newclass.util.MailUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * Created by liujiawang on 2019/1/28.
@@ -26,6 +32,26 @@ public class UserController {
     @Autowired
     @Qualifier("userDao")
     private UserDao userDao;
+
+    @Autowired
+    @Qualifier("recommendService")
+    private RecommendService recommendService;
+
+    @Autowired
+    @Qualifier("kmeansService")
+    private KmeansService kmeansService;
+
+    @Autowired
+    @Qualifier("movieRecommendDao")
+    private MovieRecommendDao movieRecommendDao;
+
+    @Autowired
+    @Qualifier("movieViewsDao")
+    private MovieViewsDao movieViewsDao;
+
+    @Autowired
+    @Qualifier("GradedetailDao")
+    private GradedetailDao gradedetailDao;
 
     @RequestMapping(value ="/login", method = RequestMethod.GET)
     public String login(){
@@ -41,6 +67,64 @@ public class UserController {
             List<UserEntity> users = userDao.getByUserName(username);
             UserEntity user = users.get(0);
             if (password.equals(user.getPassword())) {
+                session.setAttribute("uid",user.getUid());
+                session.setAttribute("status","true");
+                System.out.println("session.uid = "+user.getUid());
+                //通过多线程来生成用户的推荐信息
+                new Thread() {
+                    @Override
+                    public void run() {
+                        this.setName("userRecommend");//设置名字
+                        int uid = user.getUid();
+                        try {
+                            List<Integer> userList = kmeansService.kmeans(uid);
+                            StringBuffer sb = new StringBuffer();
+                            sb.append("(");
+                            sb.append(userList.get(0));
+                            for(int i=1;i<userList.size();i++){
+                                sb.append(","+userList.get(i));
+                            }
+                            sb.append(")");
+                            System.out.println(sb.toString()+"     213123123123");
+                            Map<String,Double> userSimilary = recommendService.getUserSimilarity(userList,uid);
+                            List<Object[]> list = gradedetailDao.getMidByKmeansUid(uid,sb.toString());
+                            Map<String,Double> map = new HashMap<>();
+                            for(int i=0;i<list.size();i++){
+                                String key = list.get(i)[0].toString();
+                                String tId = list.get(i)[1].toString();
+                                Integer value = Integer.valueOf(list.get(i)[2].toString());
+                                if(map.containsKey(key)){
+                                    map.put(key,map.get(key)+(value-3)*userSimilary.get(tId));
+                                }else{
+                                    map.put(key,(value-3)*userSimilary.get(tId));
+                                }
+                                //System.out.println(list.get(i).toString());
+//
+                            }
+                            //对于
+                            map = sortByValueDescending(map);
+                            movieRecommendDao.deleteByUid(uid);
+                            int tot = 1;
+                            for (Map.Entry<String, Double> entry : map.entrySet()) {
+                                if(tot>10){
+                                    break;
+                                }
+                                movieRecommendDao.insert(uid,Integer.valueOf(entry.getKey()),tot);
+                                tot++;
+//                                System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+                            }
+
+
+                            //movieRecommendDao.insert(uid,list.get(i),i+1);
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }.start();
                 return "index";
             } else {
                 session.setAttribute("message","密码错误");
@@ -83,7 +167,13 @@ public class UserController {
             return "redirect:/user/register";
         }
         userDao.insertUser(username,password1,email,nickname);
-        return "index";
+        UserEntity user = userDao.getByUserName(username).get(0);
+        List<Integer> mIdList = movieViewsDao.getTopMoiveList();
+        for(int i=0;i<mIdList.size();i++){
+            movieRecommendDao.insert(user.getUid(),mIdList.get(i),i+1);
+        }
+        session.removeAttribute("message");
+        return "redirect:/user/login";
     }
 
 
@@ -105,14 +195,19 @@ public class UserController {
             session.setAttribute("message","两次密码不一致");
             return "redirect:/user/register";
         }
-        UserEntity u = userDao.getByUserName(username).get(0);
+        List<UserEntity> list = userDao.getByUserName(username);
+        UserEntity u = null;
+        if(list!=null&&list.size()>0){
+            u = list.get(0);
+        }
         if(u==null||!u.getEmail().equals(email)){
             session.setAttribute("message","身份信息错误");
             return "redirect:/user/forget";
         }
         u.setPassword(password1);
         userDao.save(u);
-        return "index";
+        session.removeAttribute("message");
+        return "redirect:/user/login";
     }
 
     @ResponseBody
@@ -153,6 +248,25 @@ public class UserController {
         response.getWriter().write(js.toString());
     }
 
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValueDescending(Map<K, V> map)
+    {
+        List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<K, V>>()
+        {
+            @Override
+            public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2)
+            {
+                int compare = (o1.getValue()).compareTo(o2.getValue());
+                return -compare;
+            }
+        });
+
+        Map<K, V> result = new LinkedHashMap<K, V>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
 
 
 }

@@ -15,6 +15,7 @@
     width: 200px;
     text-align: left;
     outline: none;
+    margin-left: 20px;
 }
 .img{
     height: 250px;
@@ -35,6 +36,7 @@
 }
 .div4{
     margin-top: 5px;
+    height: 30px;
 }
 .txt3{
     color: #9b9b9b;
@@ -42,6 +44,12 @@
 .txt4{
     outline: none;
     border: none;
+    color: #9b9b9b;
+}
+.title1{
+    font-size: 20px;
+    /* text-align: center; */
+    color: green;
 }
 .txt5{
     outline: none;
@@ -51,6 +59,9 @@
     background: #ffd596 none repeat scroll 0 0;
     margin-left: 1px;
     outline: none;
+    display: inline-block;
+    margin-bottom: -4px;
+    height: 15px;
 }
 .line{
     display: inline;
@@ -93,4 +104,10 @@
 }
 .mList{
     padding: 15px 0;
+}
+.t3{
+    display: inline-block;
+}
+.t4{
+    display: inline-block;
 }

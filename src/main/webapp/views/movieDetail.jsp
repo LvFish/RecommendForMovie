@@ -18,6 +18,7 @@
 <body>
     <div>
         <div class="div1">
+            <div class="title1" id="title1"><a href="/index" style="color:green;text-decoration:none;">选电影</a></div>
             <div>
                 <input type="button" value="电影" name="name" class="txt1" id="name">
             </div>
@@ -29,10 +30,35 @@
                 </div>
                 <div>
                     <input type="button" value="电影" name="name" class="txt2" id="type">
+                    <input type="hidden" value="${id}" id="movieId">
                 </div>
             </div>
                 <div class="div2">
-
+                <c:if test="${uid!=null}">
+                    <c:if test="${rate!=null}">
+                        你的评分是：${rate}
+                    </c:if>
+                    <c:if test="${rate==null}">
+                        请评分。
+                        <div class="button-div">
+                            <button onclick="updateGrade(1)" class="grdae-button">1</button>
+                            <button onclick="updateGrade(2)" class="grdae-button">2</button>
+                            <button onclick="updateGrade(3)" class="grdae-button">3</button>
+                            <button onclick="updateGrade(4)" class="grdae-button">4</button>
+                            <button onclick="updateGrade(5)" class="grdae-button">5</button>
+                        </div>
+                    </c:if>
+                </c:if>
+                <c:if test="${uid==null}">
+                    请评分。
+                    <div class="button-div">
+                        <button onclick="updateGrade(1)" class="grdae-button">1</button>
+                        <button onclick="updateGrade(2)" class="grdae-button">2</button>
+                        <button onclick="updateGrade(3)" class="grdae-button">3</button>
+                        <button onclick="updateGrade(4)" class="grdae-button">4</button>
+                        <button onclick="updateGrade(5)" class="grdae-button">5</button>
+                    </div>
+                </c:if>
             </div>
                 <div class="div2">
                 <div>
@@ -43,29 +69,35 @@
                     <input type="button" value="0人评价" class="txt5" id="num">
                 </div>
                 <div class="div4">
+                    <div class="t3">
                     <text class="txt3">5星</text>
-                    <input type="button" class="color" id="c5">
+                    </div>
+                    <div class="color" id="c5"></div>
+                    <div class="t4">
                     <input type="button" value="0.0%" class="txt4" id="five">
+                    </div>
                 </div>
                 <div class="div4">
+                    <div class="t3">
                     <text class="txt3">4星</text>
-                    <input type="button" class="color" id="c4">
-                    <input type="button" value="0.0%" class="txt4" id="four">
+                    </div>
+                    <div class="color" id="c4"></div>
+                    <div class="t4"><input type="button" value="0.0%" class="txt4" id="four"></div>
                 </div>
                 <div class="div4">
-                    <text class="txt3">3星</text>
-                    <input type="button" class="color" id="c3">
-                    <input type="button" value="0.0%" class="txt4" id="three">
+                    <div class="t3"><text class="txt3">3星</text></div>
+                    <div class="color" id="c3"></div>
+                    <div class="t4"><input type="button" value="0.0%" class="txt4" id="three"></div>
                 </div>
                 <div class="div4">
-                    <text class="txt3">2星</text>
-                    <input type="button" class="color" id="c2">
-                    <input type="button" value="0.0%" class="txt4" id="two">
+                    <div class="t3"><text class="txt3">2星</text></div>
+                    <div class="color" id="c2"></div>
+                    <div class="t4"><input type="button" value="0.0%" class="txt4" id="two"></div>
                 </div>
                 <div class="div4">
-                    <text class="txt3">1星</text>
-                    <input type="button" class="color" id="c1">
-                    <input type="button" value="0.0%" class="txt4" id="one">
+                    <div class="t3"><text class="txt3">1星</text></div>
+                    <div class="color" id="c1"></div>
+                    <div class="t4"><input type="button" value="0.0%" class="txt4" id="one"></div>
                 </div>
                 <div></div>
             </div>

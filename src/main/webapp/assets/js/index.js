@@ -9,6 +9,7 @@ var list ;
 var nowType;
 var nowId;
 var leftPage,rightPage;
+var movieList;
 bt1 = function (value,id) {
     console.log(nowId+" "+id);
     nowType = value;
@@ -55,6 +56,12 @@ btn2 = function(val){
     window.open("/movie/movieDetail?id="+list[number][0]);
 }
 
+btn = function(val){
+    var name = val.id;
+    var number =  new Number(name.substring(1));
+    window.location.href="/movie/movieDetail?id="+movieList[number-1].mid;
+}
+
 changeView = function(num){
     // console.log(num);
     num = num - nowPage*size;
@@ -75,6 +82,12 @@ changeView = function(num){
             document.getElementById(nId).style.display="none";
             document.getElementById(imgId).style.display="none";
         }
+    }
+    for(var i=0; i<10&&i<movieList.length; i++){
+        var tempM = "m"+(i+1).toString();
+        // var tempN = "n"+(i+1).toString();
+        document.getElementById(tempM).setAttribute("value",movieList[i].name);
+        // document.getElementById(tempN).setAttribute("value",numberList[i]+"人观看");
     }
 }
 
@@ -121,6 +134,7 @@ $(document).ready(function(){
                 // console.log(data.msg);
                 list = data.msg;
                 sum = data.number;
+                movieList = data.movieList;
                 leftPage = 0;
                 rightPage = Math.ceil(sum/size);
                 changeView(data.number);
